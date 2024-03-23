@@ -1,0 +1,31 @@
+{
+    "Vpc": {
+        "CidrBlock": "192.168.0.0/24",
+        "DhcpOptionsId": "dopt-06443d532da35b418",
+        "State": "pending",
+        "VpcId": "vpc-0aae8b528be33ce01",
+        "OwnerId": "351613244741",
+        "InstanceTenancy": "default",
+        "Ipv6CidrBlockAssociationSet": [],
+        "CidrBlockAssociationSet": [
+            {
+                "AssociationId": "vpc-cidr-assoc-0107699f4008e60ee",
+                "CidrBlock": "192.168.0.0/24",
+                "CidrBlockState": {
+                    "State": "associated"
+                }
+            }
+        ],
+        "IsDefault": false,
+        "Tags": [
+            {
+                "Key": "Name",
+                "Value": "homework-vpc"
+            },
+            {
+                "Key": "Project",
+                "Value": "homework"
+            }
+        ]
+    }
+}
