@@ -3,11 +3,11 @@
     "Instances": [
         {
             "AmiLaunchIndex": 0,
-            "ImageId": "ami-023adaba598e661ac",
-            "InstanceId": "i-0e3dc3ba693dead82",
+            "ImageId": "ami-03c857255d1bfc28d",
+            "InstanceId": "i-0c1f1c033c5331f5d",
             "InstanceType": "t2.micro",
             "KeyName": "homework-key",
-            "LaunchTime": "2024-03-24T12:09:10+00:00",
+            "LaunchTime": "2024-03-24T15:46:37+00:00",
             "Monitoring": {
                 "State": "disabled"
             },
@@ -16,8 +16,8 @@
                 "GroupName": "",
                 "Tenancy": "default"
             },
-            "PrivateDnsName": "ip-192-168-0-119.eu-central-1.compute.internal",
-            "PrivateIpAddress": "192.168.0.119",
+            "PrivateDnsName": "ip-192-168-0-125.eu-central-1.compute.internal",
+            "PrivateIpAddress": "192.168.0.125",
             "ProductCodes": [],
             "PublicDnsName": "",
             "State": {
@@ -29,15 +29,15 @@
             "VpcId": "vpc-0aae8b528be33ce01",
             "Architecture": "x86_64",
             "BlockDeviceMappings": [],
-            "ClientToken": "85c7ef49-cf78-471d-b16d-0e01f9ad01d5",
+            "ClientToken": "9083cab1-9e9d-487d-9bfd-8cbe807c1814",
             "EbsOptimized": false,
             "EnaSupport": true,
             "Hypervisor": "xen",
             "NetworkInterfaces": [
                 {
                     "Attachment": {
-                        "AttachTime": "2024-03-24T12:09:10+00:00",
-                        "AttachmentId": "eni-attach-05af82e38e72b3145",
+                        "AttachTime": "2024-03-24T15:46:37+00:00",
+                        "AttachmentId": "eni-attach-0ce93dc7949a7a1e4",
                         "DeleteOnTermination": true,
                         "DeviceIndex": 0,
                         "Status": "attaching",
@@ -51,14 +51,14 @@
                         }
                     ],
                     "Ipv6Addresses": [],
-                    "MacAddress": "02:3e:b7:56:dc:e5",
-                    "NetworkInterfaceId": "eni-03b002cff7cc7b585",
+                    "MacAddress": "02:3d:5f:9e:bd:db",
+                    "NetworkInterfaceId": "eni-098b58bad93ea3825",
                     "OwnerId": "351613244741",
-                    "PrivateIpAddress": "192.168.0.119",
+                    "PrivateIpAddress": "192.168.0.125",
                     "PrivateIpAddresses": [
                         {
                             "Primary": true,
-                            "PrivateIpAddress": "192.168.0.119"
+                            "PrivateIpAddress": "192.168.0.125"
                         }
                     ],
                     "SourceDestCheck": true,
@@ -83,12 +83,12 @@
             },
             "Tags": [
                 {
-                    "Key": "Name",
-                    "Value": "homework-db-server"
-                },
-                {
                     "Key": "Project",
                     "Value": "homework"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "homework-db-server"
                 }
             ],
             "VirtualizationType": "hvm",
@@ -123,5 +123,5 @@
         }
     ],
     "OwnerId": "351613244741",
-    "ReservationId": "r-07f9a55c6fa82d4e2"
+    "ReservationId": "r-0c9e928cb7578ddc4"
 }

@@ -4,10 +4,9 @@
         {
             "AmiLaunchIndex": 0,
             "ImageId": "ami-023adaba598e661ac",
-            "InstanceId": "i-03eb634286e948eb6",
+            "InstanceId": "i-063eb6d0d9af1ddef",
             "InstanceType": "t2.micro",
-            "KeyName": "homework-key",
-            "LaunchTime": "2024-03-24T17:20:47+00:00",
+            "LaunchTime": "2024-03-24T14:46:28+00:00",
             "Monitoring": {
                 "State": "disabled"
             },
@@ -16,8 +15,8 @@
                 "GroupName": "",
                 "Tenancy": "default"
             },
-            "PrivateDnsName": "ip-192-168-0-51.eu-central-1.compute.internal",
-            "PrivateIpAddress": "192.168.0.51",
+            "PrivateDnsName": "ip-192-168-0-35.eu-central-1.compute.internal",
+            "PrivateIpAddress": "192.168.0.35",
             "ProductCodes": [],
             "PublicDnsName": "",
             "State": {
@@ -29,15 +28,15 @@
             "VpcId": "vpc-0aae8b528be33ce01",
             "Architecture": "x86_64",
             "BlockDeviceMappings": [],
-            "ClientToken": "b4d49051-2be1-4fb5-9e57-272ab6ba7d26",
+            "ClientToken": "54f23f9b-cee7-407c-a439-ffa301d56bc4",
             "EbsOptimized": false,
             "EnaSupport": true,
             "Hypervisor": "xen",
             "NetworkInterfaces": [
                 {
                     "Attachment": {
-                        "AttachTime": "2024-03-24T17:20:47+00:00",
-                        "AttachmentId": "eni-attach-00b65303896069aba",
+                        "AttachTime": "2024-03-24T14:46:28+00:00",
+                        "AttachmentId": "eni-attach-0226fffd53e1a47b0",
                         "DeleteOnTermination": true,
                         "DeviceIndex": 0,
                         "Status": "attaching",
@@ -48,21 +47,17 @@
                         {
                             "GroupName": "FRONT-sg",
                             "GroupId": "sg-04d403b530019a038"
-                        },
-                        {
-                            "GroupName": "BACK-sg",
-                            "GroupId": "sg-05943d6ca49885638"
                         }
                     ],
                     "Ipv6Addresses": [],
-                    "MacAddress": "02:f3:7c:16:c9:71",
-                    "NetworkInterfaceId": "eni-0a473441ed42e2cc8",
+                    "MacAddress": "02:9b:5d:53:44:33",
+                    "NetworkInterfaceId": "eni-025f024323ee9161d",
                     "OwnerId": "351613244741",
-                    "PrivateIpAddress": "192.168.0.51",
+                    "PrivateIpAddress": "192.168.0.35",
                     "PrivateIpAddresses": [
                         {
                             "Primary": true,
-                            "PrivateIpAddress": "192.168.0.51"
+                            "PrivateIpAddress": "192.168.0.35"
                         }
                     ],
                     "SourceDestCheck": true,
@@ -78,10 +73,6 @@
                 {
                     "GroupName": "FRONT-sg",
                     "GroupId": "sg-04d403b530019a038"
-                },
-                {
-                    "GroupName": "BACK-sg",
-                    "GroupId": "sg-05943d6ca49885638"
                 }
             ],
             "SourceDestCheck": true,
@@ -91,12 +82,12 @@
             },
             "Tags": [
                 {
-                    "Key": "Name",
-                    "Value": "homework-front-server"
-                },
-                {
                     "Key": "Project",
                     "Value": "homework"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "homework-image"
                 }
             ],
             "VirtualizationType": "hvm",
@@ -131,5 +122,5 @@
         }
     ],
     "OwnerId": "351613244741",
-    "ReservationId": "r-0685cf57e496d9610"
+    "ReservationId": "r-0c7df057b3a81c76f"
 }

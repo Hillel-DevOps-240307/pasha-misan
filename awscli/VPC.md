@@ -9,6 +9,8 @@
 - `SG_FRONT_ID`
 - `SG_BACK_ID`
 - `AMI_ID`
+- `INSTANCE_IMAGE_ID`
+- `AMI_DB_ID`
 
 ---
 
@@ -159,6 +161,19 @@ aws ec2 authorize-security-group-ingress \
 
 > [Вивід](authorize_ssh_front_ingress_output.json)
 
+#### 1.3 Надавання доззволу на вхідний трафік для додатку
+
+```
+aws ec2 authorize-security-group-ingress \
+    --group-id "$SG_FRONT_ID" \
+    --protocol tcp \
+    --port 8000 \
+    --cidr "0.0.0.0/0" \
+    | tee authorize_p8000_front_ingress_output.json
+```
+
+> [Вивід](authorize_p8000_front_ingress_output.json)
+
 ### 2. Налаштування sg для db
 
 #### 2.1 Створення sg:
@@ -202,7 +217,51 @@ aws ec2 create-key-pair \
 chmod 400 ~/.ssh/aws/homework-key.pem
 ```
 
-### 2. Створення front інстансу:
+### 2. Створення instance для образу:
+
+```
+aws ec2 run-instances \
+    --image-id "$AMI_ID" \
+    --count 1 \
+    --instance-type t2.micro \
+    --security-group-ids $SG_FRONT_ID \
+    --subnet-id $PUB_SUBNET_ID \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=homework-image},{Key=Project,Value=homework}]' \
+    --user-data file://scripts/image_db.sh \
+    | tee create_image_instance_output.json
+```
+
+> [Вивід](create_image_instance_output.json)
+
+### 3. Створення образу:
+
+```
+aws ec2 create-image \
+    --name "DB-image" \
+    --instance-id $INSTANCE_IMAGE_ID \
+    | tee create_image_output.json
+```
+
+> [Вивід](create_image_output.json)
+
+### 4. Створення back інстансу:
+
+```
+aws ec2 run-instances \
+    --image-id "$AMI_DB_ID" \
+    --count 1 \
+    --instance-type t2.micro \
+    --key-name homework-key \
+    --security-group-ids $SG_BACK_ID \
+    --subnet-id $PRIV_SUBNET_ID \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=homework-db-server},{Key=Project,Value=homework}]' \
+    --user-data file://scripts/db.sh \
+    | tee create_db_instance_output.json
+```
+
+> [Вивід](create_db_instance_output.json)
+
+### 5. Створення front інстансу:
 
 ```
 aws ec2 run-instances \
@@ -213,26 +272,11 @@ aws ec2 run-instances \
     --security-group-ids $SG_FRONT_ID $SG_BACK_ID \
     --subnet-id $PUB_SUBNET_ID \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=homework-front-server},{Key=Project,Value=homework}]' \
+    --user-data file://scripts/web.sh \
     | tee create_front_instance_output.json
 ```
 
 > [Вивід](create_front_instance_output.json)
-
-### 3. Створення back інстансу:
-
-```
-aws ec2 run-instances \
-    --image-id "$AMI_ID" \
-    --count 1 \
-    --instance-type t2.micro \
-    --key-name homework-key \
-    --security-group-ids $SG_BACK_ID \
-    --subnet-id $PRIV_SUBNET_ID \
-    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=homework-db-server},{Key=Project,Value=homework}]' \
-    | tee create_db_instance_output.json
-```
-
-> [Вивід](create_db_instance_output.json)
 
 ## Налаштування ssh підключення
 
@@ -246,14 +290,14 @@ ssh-add ~/.ssh/aws/homework-key.pem
 
 ```
 host aws-web
-    HostName 18.199.159.183
+    HostName 3.77.234.218
     User ubuntu
     IdentityFile ~/.ssh/aws/homework-key.pem
     UserKnownHostsFile ~/.ssh/known_hosts_aws
     ForwardAgent yes
 
 host db-host
-    HostName 192.168.0.119
+    HostName 192.168.0.125
     User ubuntu
     ProxyJump aws-web
 ```
@@ -263,3 +307,11 @@ host db-host
 ```
 include aws/config
 ```
+
+#### Додатково
+
+```
+curl -I 3.77.234.218:8000 | tee curl_output.txt
+```
+
+> [Вивід](curl_output.txt)
