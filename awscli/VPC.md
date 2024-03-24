@@ -6,6 +6,8 @@
 - `GATEWAY_ID`
 - `PUB_ROUTE_TABLE_ID`
 - `PRIV_ROUTE_TABLE_ID`
+- `SG_FRONT_ID`
+- `SG_BACK_ID`
 
 ---
 
@@ -125,3 +127,61 @@ aws ec2 associate-route-table \
 ```
 
 > [Вивід](associate_private_route_table_output.json)
+
+## Налаштування Security Group
+
+### 1. Налаштування sg для вебу
+
+#### 1.1 Створення sg:
+
+```
+aws ec2 create-security-group \
+    --group-name FRONT-sg \
+    --description "AWS ec2 CLI Homework FRONT SG" \
+    --tag-specifications 'ResourceType=security-group,Tags=[{Key=Name,Value=FRONT-sg},{Key=Project,Value=homework}]' \
+    --vpc-id "$VPC_ID" \
+    | tee create_front_sg_output.json
+```
+
+> [Вивід](create_front_sg_output.json)
+
+#### 1.2 Надавання дозволу на вхідний ssh трафік:
+
+```
+aws ec2 authorize-security-group-ingress \
+    --group-id "$SG_FRONT_ID" \
+    --protocol tcp \
+    --port 22 \
+    --cidr "0.0.0.0/0" \
+    | tee authorize_ssh_front_ingress_output.json
+```
+
+> [Вивід](authorize_ssh_front_ingress_output.json)
+
+### 2. Налаштування sg для db
+
+#### 2.1 Створення sg:
+
+```
+aws ec2 create-security-group \
+    --group-name BACK-sg \
+    --description "AWS ec2 CLI Homework BACK SG" \
+    --tag-specifications 'ResourceType=security-group,Tags=[{Key=Name,Value=BACK-sg},{Key=Project,Value=homework}]' \
+    --vpc-id "$VPC_ID" \
+    | tee create_back_sg_output.json
+```
+
+> [Вивід](create_back_sg_output.json)
+
+#### 2.2 Надавання дозволу на трафік в середині групи:
+
+```
+aws ec2 authorize-security-group-ingress \
+    --group-id "$SG_BACK_ID" \
+    --protocol -1 \
+    --port -1 \
+    --source-group $SG_BACK_ID \
+    | tee authorize_ssh_back_ingress_output.json
+```
+
+> [Вивід](authorize_ssh_back_ingress_output.json)
