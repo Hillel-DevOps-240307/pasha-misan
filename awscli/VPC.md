@@ -8,6 +8,7 @@
 - `PRIV_ROUTE_TABLE_ID`
 - `SG_FRONT_ID`
 - `SG_BACK_ID`
+- `AMI_ID`
 
 ---
 
@@ -185,3 +186,80 @@ aws ec2 authorize-security-group-ingress \
 ```
 
 > [Вивід](authorize_ssh_back_ingress_output.json)
+
+## Налаштування інстансів
+
+### 1. Створення пари ключів:
+
+```
+mkdir -p ~/.ssh/aws && \
+aws ec2 create-key-pair \
+    --key-name homework-key \
+    --key-type ed25519 \
+    --key-format pem \
+    --query "KeyMaterial" \
+    --output text > ~/.ssh/aws/homework-key.pem && \
+chmod 400 ~/.ssh/aws/homework-key.pem
+```
+
+### 2. Створення front інстансу:
+
+```
+aws ec2 run-instances \
+    --image-id "$AMI_ID" \
+    --count 1 \
+    --instance-type t2.micro \
+    --key-name homework-key \
+    --security-group-ids $SG_FRONT_ID $SG_BACK_ID \
+    --subnet-id $PUB_SUBNET_ID \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=homework-front-server},{Key=Project,Value=homework}]' \
+    | tee create_front_instance_output.json
+```
+
+> [Вивід](create_front_instance_output.json)
+
+### 3. Створення back інстансу:
+
+```
+aws ec2 run-instances \
+    --image-id "$AMI_ID" \
+    --count 1 \
+    --instance-type t2.micro \
+    --key-name homework-key \
+    --security-group-ids $SG_BACK_ID \
+    --subnet-id $PRIV_SUBNET_ID \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=homework-db-server},{Key=Project,Value=homework}]' \
+    | tee create_db_instance_output.json
+```
+
+> [Вивід](create_db_instance_output.json)
+
+## Налаштування ssh підключення
+
+- Додавання ключа до ssh агента
+
+```
+ssh-add ~/.ssh/aws/homework-key.pem
+```
+
+- Налаштування ssh підключень у ~/.ssh/aws/config
+
+```
+host aws-web
+    HostName 18.199.159.183
+    User ubuntu
+    IdentityFile ~/.ssh/aws/homework-key.pem
+    UserKnownHostsFile ~/.ssh/known_hosts_aws
+    ForwardAgent yes
+
+host db-host
+    HostName 192.168.0.119
+    User ubuntu
+    ProxyJump aws-web
+```
+
+- Підключення aws конфігу до ~/.ssh/config
+
+```
+include aws/config
+```

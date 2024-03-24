@@ -1,0 +1,135 @@
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-023adaba598e661ac",
+            "InstanceId": "i-01e0b95e70bb8a038",
+            "InstanceType": "t2.micro",
+            "KeyName": "homework-key",
+            "LaunchTime": "2024-03-24T12:09:01+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "eu-central-1a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-192-168-0-57.eu-central-1.compute.internal",
+            "PrivateIpAddress": "192.168.0.57",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-0d75f6a5e122b2ed3",
+            "VpcId": "vpc-0aae8b528be33ce01",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "6203c779-c91f-43c7-899c-9096c4bd2c0f",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2024-03-24T12:09:01+00:00",
+                        "AttachmentId": "eni-attach-0ced170558cfb9dec",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching",
+                        "NetworkCardIndex": 0
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "FRONT-sg",
+                            "GroupId": "sg-04d403b530019a038"
+                        },
+                        {
+                            "GroupName": "BACK-sg",
+                            "GroupId": "sg-05943d6ca49885638"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "02:d5:9d:38:dc:bb",
+                    "NetworkInterfaceId": "eni-0987b562627cd32a2",
+                    "OwnerId": "351613244741",
+                    "PrivateIpAddress": "192.168.0.57",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateIpAddress": "192.168.0.57"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-0d75f6a5e122b2ed3",
+                    "VpcId": "vpc-0aae8b528be33ce01",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/sda1",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "FRONT-sg",
+                    "GroupId": "sg-04d403b530019a038"
+                },
+                {
+                    "GroupName": "BACK-sg",
+                    "GroupId": "sg-05943d6ca49885638"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "homework-front-server"
+                },
+                {
+                    "Key": "Project",
+                    "Value": "homework"
+                }
+            ],
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled",
+                "HttpProtocolIpv6": "disabled",
+                "InstanceMetadataTags": "disabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            },
+            "BootMode": "uefi-preferred",
+            "PrivateDnsNameOptions": {
+                "HostnameType": "ip-name",
+                "EnableResourceNameDnsARecord": false,
+                "EnableResourceNameDnsAAAARecord": false
+            },
+            "MaintenanceOptions": {
+                "AutoRecovery": "default"
+            },
+            "CurrentInstanceBootMode": "legacy-bios"
+        }
+    ],
+    "OwnerId": "351613244741",
+    "ReservationId": "r-0e5db6ac0f08f9798"
+}
