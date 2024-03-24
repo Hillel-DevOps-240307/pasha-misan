@@ -25,7 +25,7 @@ aws ec2 create-vpc \
     | tee create_vpc_output.json
 ```
 
-> [Вивід](create_vpc_output.json)
+> [Вивід](output/create_vpc.json)
 
 ### 2. Створення subnets
 
@@ -39,7 +39,7 @@ aws ec2 create-subnet \
     | tee create_public_subnet_output.json
 ```
 
-> [Вивід](create_public_subnet_output.json)
+> [Вивід](output/create_public_subnet.json)
 
 #### 2.2 Заміна значення "Auto-assign public IPv4 address":
 
@@ -61,7 +61,7 @@ aws ec2 create-subnet \
     | tee create_private_subnet_output.json
 ```
 
-> [Вивід](create_private_subnet_output.json)
+> [Вивід](output/create_private_subnet.json)
 
 ### 3. Налаштування internet gateway
 
@@ -73,7 +73,7 @@ aws ec2 create-internet-gateway \
     | tee create_internet_gateway_output.json
 ```
 
-> [Вивід](create_internet_gateway_output.json)
+> [Вивід](output/create_internet_gateway.json)
 
 #### 3.2 Attach to VPC:
 
@@ -107,7 +107,7 @@ aws ec2 create-route \
     | tee create_gateway_route_output.json
 ```
 
-> [Вивід](create_gateway_route_output.json)
+> [Вивід](output/create_gateway_route.json)
 
 #### 4.3 Створення приватного route table:
 
@@ -118,7 +118,7 @@ aws ec2 create-route-table \
     | tee create_private_route_table_output.json
 ```
 
-> [Вивід](create_private_route_table_output.json)
+> [Вивід](output/create_private_route_table.json)
 
 #### 4.4 Додавання асоціації приватної підмережі до приватного route table:
 
@@ -129,7 +129,7 @@ aws ec2 associate-route-table \
     | tee associate_private_route_table_output.json
 ```
 
-> [Вивід](associate_private_route_table_output.json)
+> [Вивід](output/associate_private_route_table.json)
 
 ## Налаштування Security Group
 
@@ -146,7 +146,7 @@ aws ec2 create-security-group \
     | tee create_front_sg_output.json
 ```
 
-> [Вивід](create_front_sg_output.json)
+> [Вивід](output/create_front_sg.json)
 
 #### 1.2 Надавання дозволу на вхідний ssh трафік:
 
@@ -159,7 +159,7 @@ aws ec2 authorize-security-group-ingress \
     | tee authorize_ssh_front_ingress_output.json
 ```
 
-> [Вивід](authorize_ssh_front_ingress_output.json)
+> [Вивід](output/authorize_ssh_front_ingress.json)
 
 #### 1.3 Надавання доззволу на вхідний трафік для додатку
 
@@ -172,7 +172,7 @@ aws ec2 authorize-security-group-ingress \
     | tee authorize_p8000_front_ingress_output.json
 ```
 
-> [Вивід](authorize_p8000_front_ingress_output.json)
+> [Вивід](output/authorize_p8000_front_ingress.json)
 
 ### 2. Налаштування sg для db
 
@@ -187,7 +187,7 @@ aws ec2 create-security-group \
     | tee create_back_sg_output.json
 ```
 
-> [Вивід](create_back_sg_output.json)
+> [Вивід](output/create_back_sg.json)
 
 #### 2.2 Надавання дозволу на трафік в середині групи:
 
@@ -200,7 +200,7 @@ aws ec2 authorize-security-group-ingress \
     | tee authorize_ssh_back_ingress_output.json
 ```
 
-> [Вивід](authorize_ssh_back_ingress_output.json)
+> [Вивід](output/authorize_ssh_back_ingress.json)
 
 ## Налаштування інстансів
 
@@ -217,7 +217,7 @@ aws ec2 create-key-pair \
 chmod 400 ~/.ssh/aws/homework-key.pem
 ```
 
-### 2. Створення instance для образу:
+### 2. Створення instance для образу db:
 
 ```
 aws ec2 run-instances \
@@ -231,7 +231,7 @@ aws ec2 run-instances \
     | tee create_image_instance_output.json
 ```
 
-> [Вивід](create_image_instance_output.json)
+> [Вивід](output/create_image_instance.json)
 
 ### 3. Створення образу:
 
@@ -242,7 +242,7 @@ aws ec2 create-image \
     | tee create_image_output.json
 ```
 
-> [Вивід](create_image_output.json)
+> [Вивід](output/create_image.json)
 
 ### 4. Створення back інстансу:
 
@@ -259,7 +259,7 @@ aws ec2 run-instances \
     | tee create_db_instance_output.json
 ```
 
-> [Вивід](create_db_instance_output.json)
+> [Вивід](output/create_db_instance.json)
 
 ### 5. Створення front інстансу:
 
@@ -276,7 +276,7 @@ aws ec2 run-instances \
     | tee create_front_instance_output.json
 ```
 
-> [Вивід](create_front_instance_output.json)
+> [Вивід](output/create_front_instance.json)
 
 ## Налаштування ssh підключення
 
@@ -314,4 +314,6 @@ include aws/config
 curl -I 3.77.234.218:8000 | tee curl_output.txt
 ```
 
-> [Вивід](curl_output.txt)
+> [Вивід](output/curl.txt)
+
+> [Скрипт для оновлення ip адрес у ssh конфігу](scripts/update_ssh_config.sh)
