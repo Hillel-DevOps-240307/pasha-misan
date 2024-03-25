@@ -1,0 +1,18 @@
+{
+    "Return": true,
+    "SecurityGroupRules": [
+        {
+            "SecurityGroupRuleId": "sgr-046403e7cad85a2b9",
+            "GroupId": "sg-05943d6ca49885638",
+            "GroupOwnerId": "351613244741",
+            "IsEgress": false,
+            "IpProtocol": "-1",
+            "FromPort": -1,
+            "ToPort": -1,
+            "ReferencedGroupInfo": {
+                "GroupId": "sg-05943d6ca49885638",
+                "UserId": "351613244741"
+            }
+        }
+    ]
+}

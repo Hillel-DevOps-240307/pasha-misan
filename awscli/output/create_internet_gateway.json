@@ -1,0 +1,17 @@
+{
+    "InternetGateway": {
+        "Attachments": [],
+        "InternetGatewayId": "igw-04d3d6a0a0ec67fb4",
+        "OwnerId": "351613244741",
+        "Tags": [
+            {
+                "Key": "Name",
+                "Value": "homework-igw"
+            },
+            {
+                "Key": "Project",
+                "Value": "homework"
+            }
+        ]
+    }
+}

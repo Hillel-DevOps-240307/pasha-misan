@@ -1,0 +1,28 @@
+{
+    "RouteTable": {
+        "Associations": [],
+        "PropagatingVgws": [],
+        "RouteTableId": "rtb-0b701e52f76c9b73e",
+        "Routes": [
+            {
+                "DestinationCidrBlock": "192.168.0.0/24",
+                "GatewayId": "local",
+                "Origin": "CreateRouteTable",
+                "State": "active"
+            }
+        ],
+        "Tags": [
+            {
+                "Key": "Name",
+                "Value": "private-rt"
+            },
+            {
+                "Key": "Project",
+                "Value": "homework"
+            }
+        ],
+        "VpcId": "vpc-0aae8b528be33ce01",
+        "OwnerId": "351613244741"
+    },
+    "ClientToken": "de37570b-f10f-47ca-bfb5-a56cfbdc9ec4"
+}
