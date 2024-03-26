@@ -1,0 +1,20 @@
+{
+    "Version": 1,
+    "Tier": "Standard"
+}
+{
+    "Version": 1,
+    "Tier": "Standard"
+}
+{
+    "Version": 1,
+    "Tier": "Standard"
+}
+{
+    "Version": 1,
+    "Tier": "Standard"
+}
+{
+    "Version": 1,
+    "Tier": "Standard"
+}
