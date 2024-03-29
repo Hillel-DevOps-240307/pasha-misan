@@ -1,0 +1,27 @@
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "allow-get-db-init",
+        "RoleId": "AROAVDXOIKVCYXEUPQSWP",
+        "Arn": "arn:aws:iam::351613244741:role/allow-get-db-init",
+        "CreateDate": "2024-03-27T20:24:26+00:00",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        },
+        "Tags": [
+            {
+                "Key": "task",
+                "Value": "3"
+            }
+        ]
+    }
+}

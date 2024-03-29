@@ -1,0 +1,13 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:PutParameter",
+        "ssm:UpdateParameter"
+      ],
+      "Resource": "arn:aws:ssm:eu-central-1:351613244741:parameter/db/MYSQL_HOST"
+    }
+  ]
+}

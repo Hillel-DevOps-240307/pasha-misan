@@ -1,0 +1,20 @@
+{
+    "Policy": {
+        "PolicyName": "GetS3InitScriptPolicy",
+        "PolicyId": "ANPAVDXOIKVC6XEEDCUL3",
+        "Arn": "arn:aws:iam::351613244741:policy/GetS3InitScriptPolicy",
+        "Path": "/",
+        "DefaultVersionId": "v1",
+        "AttachmentCount": 0,
+        "PermissionsBoundaryUsageCount": 0,
+        "IsAttachable": true,
+        "CreateDate": "2024-03-28T21:35:38+00:00",
+        "UpdateDate": "2024-03-28T21:35:38+00:00",
+        "Tags": [
+            {
+                "Key": "task",
+                "Value": "3"
+            }
+        ]
+    }
+}
