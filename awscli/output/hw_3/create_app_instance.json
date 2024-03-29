@@ -3,11 +3,11 @@
     "Instances": [
         {
             "AmiLaunchIndex": 0,
-            "ImageId": "ami-0724ab41806d0293b",
-            "InstanceId": "i-057af2b08916e004a",
+            "ImageId": "ami-023adaba598e661ac",
+            "InstanceId": "i-0b7728b8d413c84a2",
             "InstanceType": "t2.micro",
             "KeyName": "homework-key",
-            "LaunchTime": "2024-03-29T16:43:28+00:00",
+            "LaunchTime": "2024-03-29T19:12:09+00:00",
             "Monitoring": {
                 "State": "disabled"
             },
@@ -16,8 +16,8 @@
                 "GroupName": "",
                 "Tenancy": "default"
             },
-            "PrivateDnsName": "ip-192-168-0-12.eu-central-1.compute.internal",
-            "PrivateIpAddress": "192.168.0.12",
+            "PrivateDnsName": "ip-192-168-0-23.eu-central-1.compute.internal",
+            "PrivateIpAddress": "192.168.0.23",
             "ProductCodes": [],
             "PublicDnsName": "",
             "State": {
@@ -29,7 +29,7 @@
             "VpcId": "vpc-0aae8b528be33ce01",
             "Architecture": "x86_64",
             "BlockDeviceMappings": [],
-            "ClientToken": "623775c7-8a02-46b2-9a59-b2b32a3fcb1c",
+            "ClientToken": "0c348d05-070f-4693-a168-ec8ef26252f9",
             "EbsOptimized": false,
             "EnaSupport": true,
             "Hypervisor": "xen",
@@ -40,8 +40,8 @@
             "NetworkInterfaces": [
                 {
                     "Attachment": {
-                        "AttachTime": "2024-03-29T16:43:28+00:00",
-                        "AttachmentId": "eni-attach-019144f97a2da66db",
+                        "AttachTime": "2024-03-29T19:12:09+00:00",
+                        "AttachmentId": "eni-attach-01fcc09b81ec3fe4a",
                         "DeleteOnTermination": true,
                         "DeviceIndex": 0,
                         "Status": "attaching",
@@ -59,14 +59,14 @@
                         }
                     ],
                     "Ipv6Addresses": [],
-                    "MacAddress": "02:df:72:bb:2b:a7",
-                    "NetworkInterfaceId": "eni-08a8b0026a0e8a04b",
+                    "MacAddress": "02:de:eb:7d:01:b1",
+                    "NetworkInterfaceId": "eni-03688a7425f22dff9",
                     "OwnerId": "351613244741",
-                    "PrivateIpAddress": "192.168.0.12",
+                    "PrivateIpAddress": "192.168.0.23",
                     "PrivateIpAddresses": [
                         {
                             "Primary": true,
-                            "PrivateIpAddress": "192.168.0.12"
+                            "PrivateIpAddress": "192.168.0.23"
                         }
                     ],
                     "SourceDestCheck": true,
@@ -135,5 +135,5 @@
         }
     ],
     "OwnerId": "351613244741",
-    "ReservationId": "r-08e7342527fb83d5f"
+    "ReservationId": "r-0b6a924858386c58f"
 }

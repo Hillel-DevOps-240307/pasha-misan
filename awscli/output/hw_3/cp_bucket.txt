@@ -1,1 +1,0 @@
-Completed 310 Bytes/310 Bytes (752 Bytes/s) with 1 file(s) remainingupload: scripts/db.sh to s3://hw-3-bucket/init.sh

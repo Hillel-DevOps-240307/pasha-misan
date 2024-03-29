@@ -2,9 +2,11 @@
 
 - `BUCKET_NAME`
 - `INIT_SCRIPT_NAME`
+- `UPDATE_SCRIPT_NAME`
 - `ACCOUNT_ID`
 - `READ_DB_PARAMS_POLICY_NAME`
 - `GET_INIT_POLICY_NAME`
+- `GET_UPDATE_ENV_POLICY_NAME`
 - `UPDATE_HOST_PARAM_POLICY_NAME`
 - `APP_ROLE_NAME`
 - `DB_ROLE_NAME`
@@ -43,14 +45,23 @@ aws s3api put-bucket-tagging \
 
 ```
 aws s3 cp scripts/db.sh s3://"$BUCKET_NAME"/"$INIT_SCRIPT_NAME" \
-    | tee output/hw_3/cp_bucket.txt
+    | tee output/hw_3/cp_init_bucket.txt
 ```
 
-> [Вивід](output/hw_3/cp_bucket.txt)
+> [Вивід](output/hw_3/cp_init_bucket.txt)
 
 > [Скрипт](scripts/db.sh) взяв з попередньої домашки
 
-### 4. Додавання тегу для записаного файлу
+### 4. Запис скрипту для оновлення змінних оточення
+
+```
+aws s3 cp scripts/hw_3/update_env.sh s3://"$BUCKET_NAME"/"$UPDATE_SCRIPT_NAME" \
+    | tee output/hw_3/cp_update_env_bucket.txt
+```
+
+> [Вивід](output/hw_3/cp_update_env_bucket.txt)
+
+### 5. Додавання тегів для записаних файлів
 
 ```
 aws s3api put-object-tagging \
@@ -59,7 +70,14 @@ aws s3api put-object-tagging \
     --tagging "TagSet=[{Key=task,Value=3}]"
 ```
 
-> Команда нічого не повертає.
+```
+aws s3api put-object-tagging \
+    --bucket "$BUCKET_NAME" \
+    --key "$UPDATE_SCRIPT_NAME" \
+    --tagging "TagSet=[{Key=task,Value=3}]"
+```
+
+> Команди нічого не повертають.
 
 ## Додавання параметрів до ssm
 
@@ -143,10 +161,22 @@ aws iam create-policy \
     --tags Key=task,Value=3 \
     | tee output/hw_3/create_init_script_policy.json
 ```
+
 > [Вивід](output/hw_3/create_init_script_policy.json)
 
+### 3. Створення політики отримання доступу до update_env скрипту
 
-### 3. Створення політики оновлення внутрішньої адреси бд
+```
+aws iam create-policy \
+    --policy-name "$GET_UPDATE_ENV_POLICY_NAME" \
+    --policy-document file://policies/get_update_env_script.json \
+    --tags Key=task,Value=3 \
+    | tee output/hw_3/create_update_env_script_policy.json
+```
+
+> [Вивід](output/hw_3/create_update_env_script_policy.json)
+
+### 4. Створення політики оновлення внутрішньої адреси бд
 
 ```
 aws iam create-policy \
@@ -184,7 +214,7 @@ aws iam create-role \
 
 > [Вивід](output/hw_3/create_db_role.json)
 
-### 3. Приєднання політики до ролі для `APP`
+### 3. Приєднання політик до ролі для `APP`
 
 ```
 aws iam attach-role-policy \
@@ -192,7 +222,13 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::"$ACCOUNT_ID":policy/"$READ_DB_PARAMS_POLICY_NAME"
 ```
 
-> Команда нічого не повертає.
+```
+aws iam attach-role-policy \
+    --role-name "$APP_ROLE_NAME" \
+    --policy-arn arn:aws:iam::"$ACCOUNT_ID":policy/"$GET_UPDATE_ENV_POLICY_NAME"
+```
+
+> Команди нічого не повертають
 
 ### 4. Приєднання політик до ролі для `DB`
 
@@ -202,15 +238,13 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::"$ACCOUNT_ID":policy/"$GET_INIT_POLICY_NAME"
 ```
 
-> Команда нічого не повертає.
-
 ```
 aws iam attach-role-policy \
     --role-name "$DB_ROLE_NAME" \
     --policy-arn arn:aws:iam::"$ACCOUNT_ID":policy/"$UPDATE_HOST_PARAM_POLICY_NAME"
 ```
 
-> Команда нічого не повертає.
+> Команди нічого не повертають
 
 ## Налаштування інстансів
 
