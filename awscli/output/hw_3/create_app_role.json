@@ -1,0 +1,27 @@
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "APPInstanceSupport",
+        "RoleId": "AROAVDXOIKVCYK2TUCC3X",
+        "Arn": "arn:aws:iam::351613244741:role/APPInstanceSupport",
+        "CreateDate": "2024-03-29T18:30:23+00:00",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        },
+        "Tags": [
+            {
+                "Key": "task",
+                "Value": "3"
+            }
+        ]
+    }
+}

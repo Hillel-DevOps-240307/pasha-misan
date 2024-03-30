@@ -1,0 +1,20 @@
+{
+    "Policy": {
+        "PolicyName": "GetsS3UpdateEnvScriptPolicy",
+        "PolicyId": "ANPAVDXOIKVCVJ6VTKFTP",
+        "Arn": "arn:aws:iam::351613244741:policy/GetsS3UpdateEnvScriptPolicy",
+        "Path": "/",
+        "DefaultVersionId": "v1",
+        "AttachmentCount": 0,
+        "PermissionsBoundaryUsageCount": 0,
+        "IsAttachable": true,
+        "CreateDate": "2024-03-29T18:23:26+00:00",
+        "UpdateDate": "2024-03-29T18:23:26+00:00",
+        "Tags": [
+            {
+                "Key": "task",
+                "Value": "3"
+            }
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "InstanceProfile": {
+        "Path": "/",
+        "InstanceProfileName": "AppProfile",
+        "InstanceProfileId": "AIPAVDXOIKVC4322H77BA",
+        "Arn": "arn:aws:iam::351613244741:instance-profile/AppProfile",
+        "CreateDate": "2024-03-27T18:35:27+00:00",
+        "Roles": [],
+        "Tags": [
+            {
+                "Key": "task",
+                "Value": "3"
+            }
+        ]
+    }
+}
