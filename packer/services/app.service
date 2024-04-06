@@ -1,0 +1,14 @@
+[Unit]
+Description=Simple app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+EnvironmentFile=/home/ubuntu/app.env
+WorkingDirectory=/home/ubuntu/flask-alb-app
+ExecStart=gunicorn -b 0.0.0.0:8000 appy:app
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

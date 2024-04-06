@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "name": "app",
+      "builder_type": "amazon-ebs",
+      "build_time": 1712408302,
+      "files": null,
+      "artifact_id": "eu-central-1:ami-0d153b69e36c38df3",
+      "packer_run_uuid": "3f685bfc-e54b-aed1-ae8a-1242cbb2b4dc",
+      "custom_data": null
+    }
+  ],
+  "last_run_uuid": "3f685bfc-e54b-aed1-ae8a-1242cbb2b4dc"
+}
