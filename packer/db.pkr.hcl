@@ -27,6 +27,18 @@ build {
   sources = [
     "source.amazon-ebs.db"
   ]
+  provisioner "file" {
+    source      = "./services/backup.service"
+    destination = "/tmp/backup.service"
+  }
+  provisioner "file" {
+    source      = "./services/backup.timer"
+    destination = "/tmp/backup.timer"
+  }
+  provisioner "file" {
+    source      = "./scripts/backup.sh"
+    destination = "/home/ubuntu/backup.sh"
+  }
   provisioner "shell" {
     inline = [
       "sudo apt update",

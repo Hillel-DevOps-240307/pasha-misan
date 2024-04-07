@@ -1,0 +1,11 @@
+[Unit]
+Description=Backup Service Timer
+
+[Timer]
+#OnCalendar=*-*-* 01:00:00
+#Для перевірки - запуск щохвилини
+OnCalendar=*-*-* *:*:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
