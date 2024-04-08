@@ -1,0 +1,12 @@
+[Unit]
+Description=Backup Service
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu
+ExecStart=/home/ubuntu/backup.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
