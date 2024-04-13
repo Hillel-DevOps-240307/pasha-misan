@@ -2,6 +2,7 @@
 REGION="eu-central-1"
 env_file="/home/ubuntu/app.env"
 
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c ssm:AmazonCloudWatch-agent-config
 declare -A env_variables=(
   ["FLASK_CONFIG"]=$(aws ssm get-parameter --name /db/FLASK_CONFIG --region "$REGION" --query "Parameter.Value" --output text)
   ["MYSQL_USER"]=$(aws ssm get-parameter --name /db/MYSQL_USER --region "$REGION" --query "Parameter.Value" --output text)

@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:DescribeParameters"
+      ],
+      "Resource": [
+        "arn:aws:ssm:eu-central-1:351613244741:parameter/AmazonCloudWatch-agent-config"
+      ]
+    }
+  ]
+}

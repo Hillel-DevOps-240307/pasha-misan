@@ -42,7 +42,9 @@ build {
   provisioner "shell" {
     inline = [
       "sudo apt update",
-      "sudo apt install -y mariadb-server awscli"
+      "sudo apt install -y mariadb-server awscli",
+      "wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
+      "sudo dpkg -i -E ./amazon-cloudwatch-agent.deb"
     ]
     pause_before = "10s"
   }
