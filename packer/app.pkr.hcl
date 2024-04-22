@@ -37,6 +37,8 @@ build {
     inline = [
       "sudo apt update",
       "sudo apt install -y git python3-pip awscli mariadb-client default-libmysqlclient-dev build-essential pkg-config",
+      "wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
+      "sudo dpkg -i -E ./amazon-cloudwatch-agent.deb",
       "git clone https://github.com/saaverdo/flask-alb-app -b orm /home/ubuntu/flask-alb-app"
     ]
     pause_before = "10s"
