@@ -1,12 +1,12 @@
 module "app_sg" {
   source = "../modules/sec_group"
 
-  name        = "APP-sg-dev"
+  name        = "APP-sg-${var.env}"
   description = "Security group for the Flask application"
   vpc_id      = var.vpc_id
   tags = {
     Project = "Homework-7"
-    Env     = "dev"
+    Env     = var.env
   }
 
   ingress_rules = ["ssh-22-tcp", "flask-8000-tcp"]
@@ -16,12 +16,12 @@ module "app_sg" {
 module "db_sg" {
   source = "../modules/sec_group"
 
-  name        = "DB-sg-dev"
+  name        = "DB-sg-${var.env}"
   description = "Security group for the MySQL database"
   vpc_id      = var.vpc_id
   tags = {
     Project = "Homework-7"
-    Env     = "dev"
+    Env     = var.env
   }
 
   ingress_with_self = [
@@ -64,7 +64,7 @@ module "db_instance" {
   vpc_security_group_ids = [module.db_sg.security_group_id]
   tags = {
     Project = "Homework-7"
-    Env     = "dev"
+    Env     = var.env
   }
 }
 
@@ -81,6 +81,6 @@ module "app_instance" {
   vpc_security_group_ids = [module.app_sg.security_group_id, module.db_sg.security_group_id]
   tags = {
     Project = "Homework-7"
-    Env     = "dev"
+    Env     = var.env
   }
 }
