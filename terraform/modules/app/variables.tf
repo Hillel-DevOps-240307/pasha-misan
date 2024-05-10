@@ -1,9 +1,3 @@
-variable "instance_count" {
-  description = "Count of instances"
-  type        = number
-  default     = 1
-}
-
 variable "ami" {
   description = "ID of AMI to use for the instance"
   type        = string
@@ -28,9 +22,9 @@ variable "user_data" {
   default     = null
 }
 
-variable "subnet_id" {
-  description = "The VPC Subnet ID to launch in"
-  type        = string
+variable "subnets" {
+  description = "The VPC Subnet IDs to launch in"
+  type        = list(string)
   default     = null
 }
 
