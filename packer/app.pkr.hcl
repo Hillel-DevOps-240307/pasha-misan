@@ -10,17 +10,21 @@ packer {
       version = ">= 1.2.8"
       source  = "github.com/hashicorp/amazon"
     }
+    ansible = {
+      version = ">= 1.1.1"
+      source  = "github.com/hashicorp/ansible"
+    }
   }
 }
 
 source "amazon-ebs" "app" {
-  ami_name      = "ami-app"
+  ami_name      = "ansible-ami-app"
   instance_type = var.instance_size
   region        = var.region
   source_ami    = var.base_ami
   ssh_username  = "ubuntu"
   tags = {
-    Project = "Homework-4"
+    Project = "Homework-8"
   }
 }
 
@@ -29,24 +33,11 @@ build {
   sources = [
     "source.amazon-ebs.app"
   ]
-  provisioner "file" {
-    source      = "./services/app.service"
-    destination = "/tmp/app.service"
+
+  provisioner "ansible" {
+    playbook_file = "../ansible/app_install.yml"
   }
-  provisioner "shell" {
-    inline = [
-      "sudo apt update",
-      "sudo apt install -y git python3-pip awscli mariadb-client default-libmysqlclient-dev build-essential pkg-config",
-      "wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb",
-      "sudo dpkg -i -E ./amazon-cloudwatch-agent.deb",
-      "git clone https://github.com/saaverdo/flask-alb-app -b orm /home/ubuntu/flask-alb-app"
-    ]
-    pause_before = "10s"
-  }
-  provisioner "shell" {
-    script          = "scripts/configure_app.sh"
-    execute_command = "sudo {{.Path}}"
-  }
+
   post-processor "manifest" {
     output = "manifests/app.json"
   }

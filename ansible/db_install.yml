@@ -1,0 +1,72 @@
+- name: Install required packages
+  hosts: all
+  become: true
+  vars:
+    prepare_host_packages:
+      - mariadb-server
+      - python3-pip
+
+  tasks:
+    - name: Install base packages
+      apt:
+        name: "{{ prepare_host_packages }}"
+        state: present
+        update_cache: true
+      loop: "{{ prepare_host_packages }}"
+
+    - name: Install pymysql python package
+      ansible.builtin.pip:
+        name: pymysql
+        state: present
+
+- name: Configure MySQL
+  hosts: all
+  become: true
+  vars:
+    db_user: "{{ mysql_user }}"
+    db_pass: "{{ mysql_pass }}"
+    db_name: "{{ mysql_db }}"
+  tasks:
+    - name: Create MySQL user
+      community.mysql.mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_pass }}"
+        host: "%"
+        priv: '*.*:ALL'
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        login_user: root
+        state: present
+
+    - name: Create flask_db database
+      community.mysql.mysql_db:
+        name: "{{ db_name }}"
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        login_user: root
+
+    - name: Grant privileges on flask_db to admin
+      community.mysql.mysql_user:
+        name: "{{ db_user }}"
+        host: "%"
+        priv: "{{ db_name }}.*:ALL"
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        login_user: root
+        state: present
+
+- name: Configure MySQL bind address
+  hosts: all
+  become: true
+  tasks:
+    - name: Set bind address in my.cnf
+      ansible.builtin.blockinfile:
+        path: /etc/mysql/my.cnf
+        block: |
+          [mysqld]
+          bind-address = 0.0.0.0
+      notify: restart mysql
+
+  handlers:
+    - name: restart mysql
+      ansible.builtin.service:
+        name: mysql
+        state: restarted
