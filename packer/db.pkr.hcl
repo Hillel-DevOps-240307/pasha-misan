@@ -1,9 +1,6 @@
 variable "instance_size" { type = string }
 variable "region" { type = string }
 variable "base_ami" { type = string }
-variable "db_user" { type = string }
-variable "db_pass" { type = string }
-variable "db_name" { type = string }
 
 packer {
   required_plugins {
