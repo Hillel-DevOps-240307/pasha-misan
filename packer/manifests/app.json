@@ -3,12 +3,12 @@
     {
       "name": "app",
       "builder_type": "amazon-ebs",
-      "build_time": 1713016700,
+      "build_time": 1715674281,
       "files": null,
-      "artifact_id": "eu-central-1:ami-04f12f9c423a4b717",
-      "packer_run_uuid": "13d8fa82-f305-a46d-edc4-d2ba5e184e50",
+      "artifact_id": "eu-central-1:ami-025192abb4fd16558",
+      "packer_run_uuid": "05bffecb-9ae3-0013-7c2b-2c7d5f69e744",
       "custom_data": null
     }
   ],
-  "last_run_uuid": "13d8fa82-f305-a46d-edc4-d2ba5e184e50"
+  "last_run_uuid": "05bffecb-9ae3-0013-7c2b-2c7d5f69e744"
 }

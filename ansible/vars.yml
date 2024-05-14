@@ -1,0 +1,4 @@
+flask_config: "mysql"
+mysql_user: "admin"
+mysql_password: "Pa55WD"
+mysql_db: "flask_db"
