@@ -24,7 +24,8 @@ source "amazon-ebs" "app" {
   source_ami    = var.base_ami
   ssh_username  = "ubuntu"
   tags = {
-    Project = "Homework-8"
+    Project  = "Homework-8"
+    ami_type = "ansible-app"
   }
 }
 

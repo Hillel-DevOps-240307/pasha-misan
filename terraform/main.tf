@@ -28,7 +28,7 @@ resource "aws_security_group" "sg-app" {
 
   tags = {
     Name    = "APP-sg"
-    Project = "Homework-6"
+    Project = "Homework-8"
   }
 }
 
@@ -54,7 +54,7 @@ resource "aws_security_group" "sg-db" {
 
   tags = {
     Name    = "DB-sg"
-    Project = "Homework-6"
+    Project = "Homework-8"
   }
 }
 
@@ -63,7 +63,7 @@ data "aws_ami" "db" {
 
   filter {
     name   = "tag:ami_type"
-    values = ["db"]
+    values = ["ansible-db"]
   }
 
   owners = ["self"]
@@ -74,7 +74,7 @@ data "aws_ami" "app" {
 
   filter {
     name   = "tag:ami_type"
-    values = ["app"]
+    values = ["ansible-app"]
   }
 
   owners = ["self"]
@@ -88,8 +88,8 @@ resource "aws_instance" "db" {
   subnet_id              = var.db-subnet-id
 
   tags = {
-    Name    = "DB instance"
-    Project = "Homework-6"
+    Name    = "DB-instance"
+    Project = "Homework-8"
   }
 }
 
@@ -99,12 +99,24 @@ resource "aws_instance" "app" {
   key_name               = var.key-name
   vpc_security_group_ids = [aws_security_group.sg-db.id, aws_security_group.sg-app.id]
   subnet_id              = var.app-subnet-id
-  user_data = templatefile("scripts/app.sh.tpl", {
-    db_private_ip = aws_instance.db.private_ip
-  })
 
   tags = {
-    Name    = "APP instance"
-    Project = "Homework-6"
+    Name    = "APP-instance"
+    Project = "Homework-8"
   }
+}
+
+resource "local_file" "generate_service_template" {
+  content = templatefile("files/app.service.tpl", {
+    mysql_host = aws_instance.db.private_ip
+  })
+  filename = "../ansible/templates/app.service.j2"
+}
+
+resource "local_file" "generate_inventory" {
+  content = templatefile("files/single_inventory.tpl", {
+    name = aws_instance.app.tags.Name,
+    ip = aws_instance.app.public_ip
+  })
+  filename = "../ansible/inventory"
 }

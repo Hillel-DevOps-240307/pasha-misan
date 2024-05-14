@@ -27,7 +27,8 @@ source "amazon-ebs" "db" {
   source_ami    = var.base_ami
   ssh_username  = "ubuntu"
   tags = {
-    Project = "Homework-8"
+    Project  = "Homework-8"
+    ami_type = "ansible-db"
   }
 }
 
@@ -39,10 +40,6 @@ build {
 
   provisioner "ansible" {
     playbook_file = "../ansible/db_install.yml"
-    extra_arguments = [
-      "--extra-vars",
-      "mysql_user=${var.db_user} mysql_pass=${var.db_pass} mysql_db=${var.db_name}"
-    ]
   }
 
   post-processor "manifest" {
