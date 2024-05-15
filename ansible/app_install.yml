@@ -1,20 +1,6 @@
-- name: Install required packages
+---
+- name: Setup APP server
   hosts: all
   become: true
-  vars:
-    prepare_host_packages:
-      - git
-      - python3-pip
-      - awscli
-      - mariadb-client
-      - default-libmysqlclient-dev
-      - build-essential
-      - pkg-config
-
-  tasks:
-    - name: Install base packages
-      apt:
-        name: "{{ prepare_host_packages }}"
-        state: present
-        update_cache: true
-      loop: "{{ prepare_host_packages }}"
+  roles:
+    - app

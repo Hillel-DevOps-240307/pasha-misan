@@ -24,7 +24,7 @@ source "amazon-ebs" "db" {
   source_ami    = var.base_ami
   ssh_username  = "ubuntu"
   tags = {
-    Project  = "Homework-8"
+    Project  = "Homework-9"
     ami_type = "ansible-db"
   }
 }
@@ -36,7 +36,8 @@ build {
   ]
 
   provisioner "ansible" {
-    playbook_file = "../ansible/db_install.yml"
+    playbook_file    = "../ansible/db_install.yml"
+    ansible_env_vars = ["ANSIBLE_ROLES_PATH={{ pwd }}/ansible/roles"]
   }
 
   post-processor "manifest" {

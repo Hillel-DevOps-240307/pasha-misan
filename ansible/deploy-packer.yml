@@ -1,14 +1,8 @@
-- name: Config db server
-  hosts: db
-  become: yes
-  roles:
-    - db
-
 - name: Deploy Flask app and configure systemd service
   hosts: app
   become: yes
-  roles:
-    - app
+  vars_files:
+    - vars.yml
   tasks:
     - name: Git clone Flask app repository
       git:
@@ -20,15 +14,6 @@
       pip:
         requirements: /home/ubuntu/flask-alb-app/requirements.txt
         extra_args: "--no-cache-dir"
-
-    - name: Copy local script to server
-      ansible.builtin.copy:
-          src: ../packer/scripts/user_data/app.sh
-          dest: /home/ubuntu/script.sh
-          mode: '0755'
-
-    - name: Run script on server
-      command: /home/ubuntu/script.sh
 
     - name: Create systemd service file from template
       template:

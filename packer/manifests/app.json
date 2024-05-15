@@ -8,7 +8,16 @@
       "artifact_id": "eu-central-1:ami-025192abb4fd16558",
       "packer_run_uuid": "05bffecb-9ae3-0013-7c2b-2c7d5f69e744",
       "custom_data": null
+    },
+    {
+      "name": "app",
+      "builder_type": "amazon-ebs",
+      "build_time": 1715766708,
+      "files": null,
+      "artifact_id": "eu-central-1:ami-03abc5362bae86846",
+      "packer_run_uuid": "63097a5f-913b-b1cb-a694-6a34f963233b",
+      "custom_data": null
     }
   ],
-  "last_run_uuid": "05bffecb-9ae3-0013-7c2b-2c7d5f69e744"
+  "last_run_uuid": "63097a5f-913b-b1cb-a694-6a34f963233b"
 }
