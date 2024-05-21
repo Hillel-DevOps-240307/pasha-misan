@@ -1,0 +1,5 @@
+[app]
+APP-instance ansible_host=0.0.0.0 ansible_user=ubuntu
+
+[db]
+DB-instance ansible_host=0.0.0.0 ansible_user=ubuntu

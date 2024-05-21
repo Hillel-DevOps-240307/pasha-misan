@@ -1,0 +1,8 @@
+---
+# tasks file for roles/app
+- name: Install base packages
+  apt:
+    name: "{{ prepare_host_packages }}"
+    state: present
+    update_cache: true
+  loop: "{{ prepare_host_packages }}"

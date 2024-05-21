@@ -1,0 +1,10 @@
+---
+# defaults file for roles/app
+prepare_host_packages:
+  - git
+  - python3-pip
+  - awscli
+  - mariadb-client
+  - default-libmysqlclient-dev
+  - build-essential
+  - pkg-config
