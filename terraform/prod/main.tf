@@ -65,15 +65,15 @@ data "aws_ami" "db" {
   owners = ["self"]
 }
 
-resource "aws_db_subnet_group" "main" {
-  name       = "main-subnet-group"
+resource "aws_db_subnet_group" "db_subnet_group" {
+  name       = "db-subnet-group"
   subnet_ids = data.terraform_remote_state.vpc.outputs.prod_public_subnets
 }
 
-resource "aws_db_parameter_group" "main" {
-  name        = "main-parameter-group"
+resource "aws_db_parameter_group" "db_parameter_group" {
+  name        = "db-parameter-group"
   family      = "mariadb10.11"
-  description = "Main parameter group"
+  description = "Db parameter group"
 
   parameter {
     name  = "max_connections"
@@ -81,15 +81,15 @@ resource "aws_db_parameter_group" "main" {
   }
 }
 
-resource "aws_db_instance" "main" {
+resource "aws_db_instance" "db_instance" {
   identifier             = var.db_identifier
   engine                 = var.db_engine
   instance_class         = var.db_instance_class
   allocated_storage      = 20
   username               = var.db_master_user
   password               = var.db_master_password
-  parameter_group_name   = aws_db_parameter_group.main.name
-  db_subnet_group_name   = aws_db_subnet_group.main.name
+  parameter_group_name   = aws_db_parameter_group.db_parameter_group.name
+  db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.name
   vpc_security_group_ids = [module.db_sg.security_group_id]
   publicly_accessible    = false
   skip_final_snapshot    = true
@@ -112,7 +112,7 @@ module "app_instance" {
 resource "local_file" "generate_inventory_file" {
   content = templatefile("../files/inventory.tpl", {
     app_instances      = module.app_instance.public_ip,
-    rds_endpoint       = aws_db_instance.main.address,
+    rds_endpoint       = aws_db_instance.db_instance.address,
     db_name            = var.db_name,
     db_master_user     = var.db_master_user,
     db_master_password = var.db_master_password
@@ -123,7 +123,7 @@ resource "local_file" "generate_inventory_file" {
 resource "local_file" "generate_script_file" {
   content = templatefile("../scripts/app.sh.tpl", {
     db_name = var.db_name,
-    db_host = aws_db_instance.main.address,
+    db_host = aws_db_instance.db_instance.address,
   })
   filename = "../scripts/app.sh"
 }
