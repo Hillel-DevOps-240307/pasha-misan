@@ -1,0 +1,40 @@
+- name: Create database and user
+  hosts: app[0]
+  become: yes
+  tasks:
+    - name: Create database
+      community.mysql.mysql_db:
+        name: "{{ db_name }}"
+        state: present
+        login_host: "{{ rds_endpoint }}"
+        login_user: "{{ db_master_user }}"
+        login_password: "{{ db_master_password }}"
+
+    - name: Create database user
+      community.mysql.mysql_user:
+        name: admin
+        password: Pa55WD
+        priv: '{{ db_name }}.*:ALL'
+        host: '%'
+        state: present
+        login_host: "{{ rds_endpoint }}"
+        login_user: "{{ db_master_user }}"
+        login_password: "{{ db_master_password }}"
+
+- name: Run flask app
+  hosts: app
+  become: yes
+  tasks:
+    - name: Install Python requirements
+      pip:
+        requirements: /home/ubuntu/flask-alb-app/requirements.txt
+        extra_args: "--no-cache-dir"
+
+    - name: Copy local script to server
+      ansible.builtin.copy:
+        src: ../scripts/app.sh
+        dest: /home/ubuntu/script.sh
+        mode: '0755'
+
+    - name: Run script on server
+      command: /home/ubuntu/script.sh

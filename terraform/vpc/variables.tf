@@ -5,5 +5,5 @@ variable "cidr" {
 
 variable "azs" {
   description = "Availability zones"
-  default     = ["eu-central-1a"]
+  default     = ["eu-central-1a", "eu-central-1b"]
 }
