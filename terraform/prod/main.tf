@@ -16,7 +16,7 @@ module "app_sg" {
   description = "Security group for the Flask application"
   vpc_id      = data.terraform_remote_state.vpc.outputs.prod_vpc_id
   tags = {
-    Project = "Homework-7"
+    Project = "Homework-10"
     Env     = var.env
   }
 
@@ -31,7 +31,7 @@ module "db_sg" {
   description = "Security group for the MySQL database"
   vpc_id      = data.terraform_remote_state.vpc.outputs.prod_vpc_id
   tags = {
-    Project = "Homework-7"
+    Project = "Homework-10"
     Env     = var.env
   }
 
@@ -65,18 +65,34 @@ data "aws_ami" "db" {
   owners = ["self"]
 }
 
-module "db_instance" {
-  source = "../modules/db"
+resource "aws_db_subnet_group" "main" {
+  name       = "main-subnet-group"
+  subnet_ids = data.terraform_remote_state.vpc.outputs.prod_public_subnets
+}
 
-  name = "DB-instance"
-  ami  = data.aws_ami.db.id
+resource "aws_db_parameter_group" "main" {
+  name        = "main-parameter-group"
+  family      = "mariadb10.11"
+  description = "Main parameter group"
 
-  subnet_id              = data.terraform_remote_state.vpc.outputs.prod_private_subnet
-  vpc_security_group_ids = [module.db_sg.security_group_id]
-  tags = {
-    Project = "Homework-7"
-    Env     = var.env
+  parameter {
+    name  = "max_connections"
+    value = "50"
   }
+}
+
+resource "aws_db_instance" "main" {
+  identifier             = var.db_identifier
+  engine                 = var.db_engine
+  instance_class         = var.db_instance_class
+  allocated_storage      = 20
+  username               = var.db_master_user
+  password               = var.db_master_password
+  parameter_group_name   = aws_db_parameter_group.main.name
+  db_subnet_group_name   = aws_db_subnet_group.main.name
+  vpc_security_group_ids = [module.db_sg.security_group_id]
+  publicly_accessible    = false
+  skip_final_snapshot    = true
 }
 
 module "app_instance" {
@@ -85,23 +101,29 @@ module "app_instance" {
   name = "APP-instance"
   ami  = data.aws_ami.app.id
 
-  user_data = templatefile("../scripts/app.sh.tpl", {
-    db_private_ip = module.db_instance.private_ip
-  })
   subnets                = data.terraform_remote_state.vpc.outputs.prod_public_subnets
   vpc_security_group_ids = [module.app_sg.security_group_id, module.db_sg.security_group_id]
   tags = {
-    Project = "Homework-7"
+    Project = "Homework-10"
     Env     = var.env
   }
 }
 
-resource "local_file" "generate_service_file" {
+resource "local_file" "generate_inventory_file" {
   content = templatefile("../files/inventory.tpl", {
-    app_instances    = module.app_instance.public_ip,
-    db_instance_name = module.db_instance.name,
-    #Використав приватний ip для прикладу, оскільки публічного у цього інстансу немає
-    db_instance_ip = module.db_instance.private_ip
+    app_instances      = module.app_instance.public_ip,
+    rds_endpoint       = aws_db_instance.main.address,
+    db_name            = var.db_name,
+    db_master_user     = var.db_master_user,
+    db_master_password = var.db_master_password
   })
   filename = "../files/prod_hosts"
+}
+
+resource "local_file" "generate_script_file" {
+  content = templatefile("../scripts/app.sh.tpl", {
+    db_name = var.db_name,
+    db_host = aws_db_instance.main.address,
+  })
+  filename = "../scripts/app.sh"
 }
