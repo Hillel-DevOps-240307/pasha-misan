@@ -20,7 +20,7 @@ module "app_sg" {
     Env     = var.env
   }
 
-  ingress_rules = ["ssh-22-tcp", "http-80-tcp"]
+  ingress_rules = ["ssh-22-tcp", "http-5000-tcp", "http-5001-tcp"]
   egress_rules  = ["all-all"]
 }
 
@@ -47,9 +47,9 @@ data "aws_ami" "app" {
   most_recent = true
 
   filter {
-    name   = "tag:ami_type"
+    name = "tag:ami_type"
     //todo доробити
-    values = ["app"]
+    values = ["voting-app"]
   }
 
   owners = ["self"]
@@ -86,23 +86,20 @@ module "app_instance" {
   name = "Voting app instance"
   ami  = data.aws_ami.app.id
 
-#  user_data = templatefile("../scripts/app.sh.tpl", {
-#    db_private_ip = module.db_instance.private_ip
-#  })
+  #  user_data = templatefile("../scripts/app.sh.tpl", {
+  #    db_private_ip = module.db_instance.private_ip
+  #  })
   subnets                = data.terraform_remote_state.vpc.outputs.dev_public_subnets
   vpc_security_group_ids = [module.app_sg.security_group_id, /*module.db_sg.security_group_id*/]
   tags = {
-    Project = "Voting app"
-    Env     = var.env
+    Name = "Voting_app"
+    Env  = var.env
   }
 }
 
-#resource "local_file" "generate_service_file" {
-#  content = templatefile("../files/inventory.tpl", {
-#    app_instances    = module.app_instance.public_ip,
-#    db_instance_name = module.db_instance.name,
-#    #Використав приватний ip для прикладу, оскільки публічного у цього інстансу немає
-#    db_instance_ip = module.db_instance.private_ip
-#  })
-#  filename = "../files/dev_hosts"
-#}
+resource "local_file" "generate_service_file" {
+  content = templatefile("../ansible/templates/inventory.tpl", {
+    app_instances = module.app_instance.public_ip,
+  })
+  filename = "../ansible/inventory"
+}

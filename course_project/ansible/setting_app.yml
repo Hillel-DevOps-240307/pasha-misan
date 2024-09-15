@@ -1,0 +1,43 @@
+- name: Clone and setup GitLab Runner
+  hosts: app
+  become: yes
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Git clone course project repository
+      git:
+        repo: https://gitlab.com/group4883448/course-project
+        dest: /home/ubuntu/course-project
+
+    - name: Add current user to the docker group
+      user:
+        name: "{{ ansible_user }}"  # Поточний користувач Ansible
+        groups: docker
+        append: yes
+
+    - name: Run GitLab Runner container
+      docker_container:
+        name: gitlab-runner-medium
+        image: gitlab/gitlab-runner:alpine
+        state: started
+        restart_policy: always
+        volumes:
+          - /srv/gitlab-runner/config:/etc/gitlab-runner
+          - /var/run/docker.sock:/var/run/docker.sock
+      register: runner_container
+      # Використання "register" для збереження результату
+
+    - name: Register GitLab Runner
+      command: >
+        docker run --rm -t -i
+        -v /srv/gitlab-runner/config:/etc/gitlab-runner
+        gitlab/gitlab-runner:alpine register --non-interactive
+        --url "https://gitlab.com/"
+        --registration-token "{{ gitlab_registration_token }}"
+        --executor "docker"
+        --docker-image "docker:stable"
+        --description "docker runner medium project"
+        --docker-privileged
+        --docker-tlsverify
+        --docker-volumes "/certs/client"
+      when: runner_container.changed

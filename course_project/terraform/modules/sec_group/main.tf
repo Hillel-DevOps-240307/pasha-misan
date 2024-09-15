@@ -31,7 +31,7 @@ resource "aws_security_group_rule" "ingress_with_self" {
   security_group_id = aws_security_group.this.id
   type              = "ingress"
 
-  self            = lookup(var.ingress_with_self[count.index], "self", true)
+  self = lookup(var.ingress_with_self[count.index], "self", true)
 
   description = lookup(
     var.ingress_with_self[count.index],

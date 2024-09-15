@@ -3,8 +3,9 @@ variable "rules" {
   type        = map(list(any))
 
   default = {
-    ssh-22-tcp     = [22, 22, "tcp", "Allow ssh"]
-    http-80-tcp = [80, 80, "tcp", "Allow http web connection"]
-    all-all        = [-1, -1, "-1", "All protocols"]
+    ssh-22-tcp    = [22, 22, "tcp", "Allow ssh"]
+    http-5000-tcp = [5000, 5000, "tcp", "Allow port 5000 connection"]
+    http-5001-tcp = [5001, 5001, "tcp", "Allow port 5001 connection"]
+    all-all       = [-1, -1, "-1", "All protocols"]
   }
 }
