@@ -24,24 +24,20 @@ module "app_sg" {
   egress_rules  = ["all-all"]
 }
 
-#module "db_sg" {
-#  source = "./modules/sec_group"
-#
-#  name        = "DB-sg-${var.env}"
-#  description = "Security group for the MySQL database"
-#  vpc_id      = data.terraform_remote_state.vpc.outputs.dev_vpc_id
-#  tags = {
-#    Project = "Homework-7"
-#    Env     = var.env
-#  }
-#
-#  ingress_with_self = [
-#    {
-#      rule = "all-all"
-#    }
-#  ]
-#  egress_rules = ["all-all"]
-#}
+module "db_sg" {
+  source = "./modules/sec_group"
+
+  name        = "DB-sg-${var.env}"
+  description = "Security group for the Voting App database"
+  vpc_id      = data.terraform_remote_state.vpc.outputs.dev_vpc_id
+  tags = {
+    Project = "Voting app"
+    Env     = var.env
+  }
+
+  ingress_rules = ["all-all"]
+  egress_rules  = ["all-all"]
+}
 
 data "aws_ami" "app" {
   most_recent = true
@@ -55,30 +51,30 @@ data "aws_ami" "app" {
   owners = ["self"]
 }
 
-#data "aws_ami" "db" {
-#  most_recent = true
-#
-#  filter {
-#    name   = "tag:ami_type"
-#    values = ["db"]
-#  }
-#
-#  owners = ["self"]
-#}
+data "aws_ami" "db" {
+  most_recent = true
 
-#module "db_instance" {
-#  source = "./modules/db"
-#
-#  name = "DB-instance"
-#  ami  = data.aws_ami.db.id
-#
-#  subnet_id              = data.terraform_remote_state.vpc.outputs.dev_private_subnet
-#  vpc_security_group_ids = [module.db_sg.security_group_id]
-#  tags = {
-#    Project = "Homework-7"
-#    Env     = var.env
-#  }
-#}
+  filter {
+    name   = "tag:ami_type"
+    values = ["voting-db"]
+  }
+
+  owners = ["self"]
+}
+
+module "db_instance" {
+  source = "./modules/db"
+
+  name = "Voting app database"
+  ami  = data.aws_ami.db.id
+
+  subnet_id              = data.terraform_remote_state.vpc.outputs.dev_private_subnet
+  vpc_security_group_ids = [module.db_sg.security_group_id]
+  tags = {
+    Project = "Voting_app"
+    Env     = var.env
+  }
+}
 
 module "app_instance" {
   source = "./modules/app"
@@ -86,11 +82,8 @@ module "app_instance" {
   name = "Voting app instance"
   ami  = data.aws_ami.app.id
 
-  #  user_data = templatefile("../scripts/app.sh.tpl", {
-  #    db_private_ip = module.db_instance.private_ip
-  #  })
   subnets                = data.terraform_remote_state.vpc.outputs.dev_public_subnets
-  vpc_security_group_ids = [module.app_sg.security_group_id, /*module.db_sg.security_group_id*/]
+  vpc_security_group_ids = [module.app_sg.security_group_id, module.db_sg.security_group_id]
   tags = {
     Name = "Voting_app"
     Env  = var.env
@@ -100,6 +93,15 @@ module "app_instance" {
 resource "local_file" "generate_service_file" {
   content = templatefile("../ansible/templates/inventory.tpl", {
     app_instances = module.app_instance.public_ip,
+    db_ip         = module.db_instance.private_ip,
+    jump_ip       = element(values(module.app_instance.public_ip), 0)
   })
   filename = "../ansible/inventory"
+}
+
+resource "local_file" "generate_env_file" {
+  content = templatefile("../ansible/templates/env.tpl", {
+    db_ip = module.db_instance.private_ip,
+  })
+  filename = "../ansible/.env"
 }

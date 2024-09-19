@@ -1,0 +1,13 @@
+- name: Setup DB server
+  hosts: all
+  become: yes
+  vars_files:
+    - vars/main.yml
+
+  pre_tasks:
+    - name: Оновити список пакетів
+      apt:
+        update_cache: yes
+
+  roles:
+    - geerlingguy.postgresql

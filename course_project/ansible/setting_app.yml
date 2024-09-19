@@ -1,17 +1,23 @@
-- name: Clone and setup GitLab Runner
+- name: Setup application and GitLab Runner
   hosts: app
   become: yes
   vars_files:
     - vars.yml
   tasks:
-    - name: Git clone course project repository
+    - name: Clone and setup course project repository
       git:
         repo: https://gitlab.com/group4883448/course-project
         dest: /home/ubuntu/course-project
 
+    - name: Copy .env file from local to remote
+      copy:
+        src: .env
+        dest: /home/ubuntu/course-project/.env
+        mode: '0644'
+
     - name: Add current user to the docker group
       user:
-        name: "{{ ansible_user }}"  # Поточний користувач Ansible
+        name: "{{ ansible_user }}"
         groups: docker
         append: yes
 
@@ -25,7 +31,6 @@
           - /srv/gitlab-runner/config:/etc/gitlab-runner
           - /var/run/docker.sock:/var/run/docker.sock
       register: runner_container
-      # Використання "register" для збереження результату
 
     - name: Register GitLab Runner
       command: >
