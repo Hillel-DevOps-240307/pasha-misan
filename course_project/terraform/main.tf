@@ -90,11 +90,15 @@ module "app_instance" {
   }
 }
 
+resource "gitlab_project_variable" "setup_host_variable" {
+  project = var.gitlabProjectId
+  key     = "SERVER_HOST"
+  value   = element(values(module.app_instance.public_ip), 0)
+}
+
 resource "local_file" "generate_service_file" {
   content = templatefile("../ansible/templates/inventory.tpl", {
     app_instances = module.app_instance.public_ip,
-    db_ip         = module.db_instance.private_ip,
-    jump_ip       = element(values(module.app_instance.public_ip), 0)
   })
   filename = "../ansible/inventory"
 }
