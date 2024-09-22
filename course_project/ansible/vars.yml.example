@@ -1,3 +1,4 @@
+gitlab_registration_token: "token"
 postgresql_databases:
   - name: postgres
     lc_collate: "C.UTF-8"
