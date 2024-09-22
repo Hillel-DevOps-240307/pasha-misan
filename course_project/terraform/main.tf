@@ -47,7 +47,7 @@ data "aws_ami" "app" {
   most_recent = true
 
   filter {
-    name = "tag:ami_type"
+    name   = "tag:ami_type"
     values = ["voting-app"]
   }
 
@@ -74,7 +74,7 @@ module "db_instance" {
   subnet_id              = data.terraform_remote_state.vpc.outputs.dev_private_subnet
   vpc_security_group_ids = [module.db_sg.security_group_id]
   tags = {
-    Name = "Voting-app-db-instance"
+    Name    = "Voting-app-db-instance"
     Project = var.project_name
     Env     = var.env
   }
@@ -89,9 +89,9 @@ module "app_instance" {
   subnets                = data.terraform_remote_state.vpc.outputs.dev_public_subnets
   vpc_security_group_ids = [module.app_sg.security_group_id, module.db_sg.security_group_id]
   tags = {
-    Name = "Voting-app-instance"
+    Name    = "Voting-app-instance"
     Project = var.project_name
-    Env  = var.env
+    Env     = var.env
   }
 }
 

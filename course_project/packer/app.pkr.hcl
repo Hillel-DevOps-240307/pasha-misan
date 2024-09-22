@@ -22,7 +22,7 @@ source "amazon-ebs" "app" {
   source_ami    = var.base_ami
   ssh_username  = "ubuntu"
   tags = {
-    Project = "Voting app"
+    Project  = "Voting app"
     ami_type = "voting-app"
   }
 }
@@ -34,6 +34,6 @@ build {
   ]
 
   provisioner "ansible" {
-    playbook_file    = "../ansible/ami_app.yml"
+    playbook_file = "../ansible/ami_app.yml"
   }
 }
