@@ -17,5 +17,5 @@ provider "aws" {
 }
 
 provider "gitlab" {
-  token = var.gitlabToken
+  token = var.gitlab_token
 }

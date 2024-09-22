@@ -15,6 +15,13 @@
         dest: /home/ubuntu/course-project/.env
         mode: '0644'
 
+    - name: Change owner of the repository to ubuntu
+      file:
+        path: /home/ubuntu/course-project
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        recurse: yes
+
     - name: Add current user to the docker group
       user:
         name: "{{ ansible_user }}"

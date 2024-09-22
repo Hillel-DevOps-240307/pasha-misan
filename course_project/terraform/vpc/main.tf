@@ -1,7 +1,7 @@
 module "prod-vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name                          = "Prod-vpc"
+  name                          = "Voting-app-vpc"
   cidr                          = var.cidr
   manage_default_security_group = false
   map_public_ip_on_launch       = true
@@ -12,14 +12,14 @@ module "prod-vpc" {
 
   tags = {
     Environment = "prod"
-    Project     = "Homework-7"
+    Project     = "Voting-app"
   }
 }
 
 module "dev-vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name                          = "Dev-vpc"
+  name                          = "Voting-app-vpc"
   cidr                          = var.cidr
   manage_default_security_group = false
   map_public_ip_on_launch       = true
@@ -30,6 +30,6 @@ module "dev-vpc" {
 
   tags = {
     Environment = "dev"
-    Project     = "Homework-7"
+    Project     = "Voting-app"
   }
 }
