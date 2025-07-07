@@ -1,0 +1,14 @@
+- name: Setup DB server
+  hosts: all
+  become: yes
+  vars_files:
+    - vars.yml
+
+  pre_tasks:
+    - name: Ensure apt cache is up-to-date
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+  roles:
+    - geerlingguy.postgresql

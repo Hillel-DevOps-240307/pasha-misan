@@ -1,0 +1,55 @@
+- name: Setup application and GitLab Runner
+  hosts: app
+  become: yes
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Clone and setup course project repository
+      git:
+        repo: https://gitlab.com/group4883448/course-project
+        dest: /home/ubuntu/course-project
+
+    - name: Copy .env file from local to remote
+      copy:
+        src: .env
+        dest: /home/ubuntu/course-project/.env
+        mode: '0644'
+
+    - name: Change owner of the repository to ubuntu
+      file:
+        path: /home/ubuntu/course-project
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        recurse: yes
+
+    - name: Add current user to the docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Run GitLab Runner container
+      docker_container:
+        name: gitlab-runner-medium
+        image: gitlab/gitlab-runner:alpine
+        state: started
+        restart_policy: always
+        volumes:
+          - /srv/gitlab-runner/config:/etc/gitlab-runner
+          - /var/run/docker.sock:/var/run/docker.sock
+      register: runner_container
+
+    - name: Register GitLab Runner
+      command: >
+        docker run --rm -t -i
+        -v /srv/gitlab-runner/config:/etc/gitlab-runner
+        gitlab/gitlab-runner:alpine register --non-interactive
+        --url "https://gitlab.com/"
+        --registration-token "{{ gitlab_registration_token }}"
+        --executor "docker"
+        --docker-image "docker:stable"
+        --description "docker runner medium project"
+        --docker-privileged
+        --docker-tlsverify
+        --docker-volumes "/certs/client"
+      when: runner_container.changed
